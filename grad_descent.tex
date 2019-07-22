@@ -1,0 +1,125 @@
+\documentclass[parskip]{scrartcl}
+\usepackage[margin=15mm]{geometry}
+\usepackage{tikz}
+\usepackage{pifont}
+\usepackage{graphicx}
+\usepackage[none]{hyphenat}
+
+\begin{document}
+
+\pgfmathsetmacro{\cardroundingradius}{4mm}
+\pgfmathsetmacro{\striproundingradius}{3mm}
+\pgfmathsetmacro{\cardwidth}{5}
+\pgfmathsetmacro{\cardheight}{8}
+\newcommand{\stripcolor}{lightgray}
+\pgfmathsetmacro{\stripwidth}{1.2}
+\pgfmathsetmacro{\strippadding}{0.1}
+\newcommand{\striptext}{Grad Descent \rotatebox[origin=c]{-90}{\ding{100}}}
+\pgfmathsetmacro{\textpadding}{0.3}
+\newcommand{\topcaption}{SEARCH}
+\newcommand{\topcontent}{Change the convolutional activation function to each of these options:}
+\newcommand{\bottomcaption}{\textbf{Values}}
+\newcommand{\bottomcontent}{"relu", "selu", "elu", "tanh"}
+\pgfmathsetmacro{\ruleheight}{0.1}
+\newcommand{\stripfontsize}{\Huge}
+\newcommand{\captionfontsize}{\LARGE}
+\newcommand{\textfontsize}{\normalsize}
+
+\newcommand{\drawcard}{
+\begin{tikzpicture}
+    \draw[rounded corners=\cardroundingradius] (0,0) rectangle (\cardwidth,\cardheight);
+    \fill[\stripcolor,rounded corners=\striproundingradius] (\strippadding,\strippadding) rectangle (\strippadding+\stripwidth,\cardheight-\strippadding) node[rotate=90,above left,black,font=\stripfontsize] {\striptext};
+    \node[text width=(\cardwidth-\strippadding-\stripwidth-2*\textpadding)*1cm,below right,inner sep=0] at (\strippadding+\stripwidth+\textpadding,\cardheight-\textpadding) 
+    {   {\captionfontsize \topcaption}\\ 
+        {\textfontsize \topcontent}\\
+        \tikz{\fill (0,0) rectangle (\cardwidth-\strippadding-\stripwidth-2*\textpadding,\ruleheight);}\\
+        {\captionfontsize \bottomcaption}\\ 
+        {\textfontsize \bottomcontent}\\
+    };
+\end{tikzpicture}}
+\renewcommand{\topcontent}{Change the convolutional activation function to each of these options.}
+\renewcommand{\bottomcontent}{"relu", "selu", "elu", "tanh"}
+\drawcard
+\renewcommand{\topcontent}{Vary the learning rate and batch size of the standard convolutional network.}
+\renewcommand{\bottomcontent}{Learning rate: 0.01, 0.001, 0.0001, 0.00001\\Batch Size: 128, 256, 512, 1024, 2048}
+\drawcard
+\renewcommand{\topcontent}{Change the number of convolutional filters in the first layer. Double the number of filters in each subsequent layer.}
+\renewcommand{\bottomcontent}{Filters: 8, 16, 32, 48, 64, 128}
+\drawcard\\
+\renewcommand{\topcontent}{Use two Dense hidden layers before the output Dense layer. Vary the neuron count.}
+\renewcommand{\bottomcontent}{First Dense Neuron Count: 128, 256, 512\\Second Dense Neuron Count: 512, 256, 128}
+\drawcard
+\renewcommand{\topcontent}{Compare Max Pooling, Average Pooling, and Strided Convolutions for spatial dimensionality reduction.}
+\renewcommand{\bottomcontent}{MaxPooling2D, AveragePooling2D, Conv2D(..., stride=(2,2))}
+\drawcard
+\renewcommand{\topcontent}{Retrain the network with 1 year's worth of examples removed from the training data.}
+\renewcommand{\bottomcontent}{$valid\_dates.year$ != 2011, 2012, 2013, 2014, 2015}
+\drawcard\\
+\renewcommand{\topcontent}{Use 2 convolutional layers between each pooling layer. Vary the ratio of the number of filters used between the first and second layer.}
+\renewcommand{\bottomcontent}{same, 2x first, 0.5x first}
+\drawcard
+\renewcommand{\topcontent}{Use SpatialDropout2D layers after each convolutional layer and vary the dropout rate.}
+\renewcommand{\bottomcontent}{0.1, 0.2, 0.3, 0.4, 0.5}
+\drawcard
+\renewcommand{\topcontent}{Place BatchNormalization layers after each convolutional layer. Vary the momentum parameter.}
+\renewcommand{\bottomcontent}{momentum=0.5, 0.9, 0.99, 0.999}
+\drawcard
+
+\newpage
+\renewcommand{\topcontent}{Add l2 kernel regularizers to each Conv2D and Dense layer. Vary the l2 strength.}
+\renewcommand{\bottomcontent}{strength=0.1, 0.01, 0.001, 0.0001}
+\drawcard
+\renewcommand{\topcontent}{Change the optimizer. Use the same learning rate and batch size for each.}
+\renewcommand{\bottomcontent}{SGD, Adam, RMSprop, Adadelta, Nadam}
+\drawcard
+\renewcommand{\topcontent}{Vary the number of Conv2D- Activation- MaxPooling2D layer sets.}
+\renewcommand{\bottomcontent}{1, 2, 3, 4}
+\drawcard\\
+\renewcommand{\topcontent}{Use 2 input fields instead of 3. Vary the combinations of inputs used.}
+\renewcommand{\bottomcontent}{(refl, u), (refl, v), (u, v)}
+\drawcard
+\renewcommand{\topcontent}{Change the \textit{kernel\_initializer} and \textit{bias\_initializer} for each Conv2D and Dense layer.}
+\renewcommand{\bottomcontent}{glorot\_uniform, he\_uniform, lecun\_uniform, he\_normal}
+\drawcard
+\renewcommand{\topcontent}{Vary the width of the convolutional filters in each layer.}
+\renewcommand{\bottomcontent}{(3,3), (5, 5), \\(7, 7), (9, 9)}
+\drawcard\\
+\renewcommand{\topcontent}{Rescale the spatial dimension of the input with Average Pooling 2D or Upsampling 2D layers after the input layer.}
+\renewcommand{\bottomcontent}{AveragePooling2D: size=(2,2), (4,4)\\Upsampling2D: size=(2,2), (4,4)}
+\drawcard
+\renewcommand{\topcontent}{Replace the Conv2D layers with SeparableConv2D layers. Vary the depth\_multiplier parameter.}
+\renewcommand{\bottomcontent}{depth\_multiplier=\\1, 2, 4, 8}
+\drawcard
+\renewcommand{\topcontent}{Use GaussianDropout layers after each Conv2D layer. Vary the dropout rate.}
+\renewcommand{\bottomcontent}{rate=0.1, 0.2, 0.3, 0.4, 0.5}
+\drawcard
+
+\newpage
+\renewcommand{\topcontent}{Add l1 kernel regularizers to each Conv2D and Dense layer. Vary the l1 strength.}
+\renewcommand{\bottomcontent}{strength=0.1, 0.01, 0.001, 0.0001}
+\drawcard
+\renewcommand{\topcontent}{Use the SGD optimizer and vary the learning\_rate and momentum parameters.}
+\renewcommand{\bottomcontent}{learning\_rate=0.1, 0.01, 0.001, 0.0001\\momentum=0.9, 0.99, 0.999 }
+\drawcard
+\renewcommand{\topcontent}{Vary the number of Conv2D- Activation- AveragePooling2D layer sets.}
+\renewcommand{\bottomcontent}{1, 2, 3, 4}
+\drawcard\\
+\renewcommand{\topcontent}{Use 1 input field instead of 3.}
+\renewcommand{\bottomcontent}{refl, u, v}
+\drawcard
+\renewcommand{\topcontent}{Change how the input values are scaled. $scaled=a+\frac{x-x_{min}(b-a)}{x_{max}-x_{min}}$}
+\renewcommand{\bottomcontent}{Min-Max Scaling from a=0 to b=1, Min-Max Scaling from a=-1 to b=1.}
+\drawcard
+\renewcommand{\topcontent}{After each pooling layer, use 2 parallel Conv2D layers with different widths and Concatenate them afterward.}
+\renewcommand{\bottomcontent}{(3, 3) and (5,5); (1, 1) and (3, 3)}
+\drawcard\\
+\renewcommand{\topcontent}{Place a Flatten layer after the input and replace all Conv2D and Pooling layers with 3 Dense layers with ReLU. Vary the hidden neuron count.}
+\renewcommand{\bottomcontent}{(512, 256, 128), (512, 512, 512), (128, 256, 512)}
+\drawcard
+\renewcommand{\topcontent}{Remove all pooling layers. Use 4 convolution filters where the filter width doubles with each layer.}
+\renewcommand{\bottomcontent}{start filter width=(3, 3), (5, 5), (7, 7)}
+\drawcard
+\renewcommand{\topcontent}{Use GaussianNoise layers after each Conv2D layer. Vary the noise standard deviation.}
+\renewcommand{\bottomcontent}{standard deviation=0.1, 0.01, 0.001}
+\drawcard
+\end{document}
